@@ -1,17 +1,27 @@
+
 'use client';
 import React, { useState, useEffect } from 'react';
 
 const DarkMode = () => {
-    const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
+    const [theme, setTheme] = useState('light');
 
     useEffect(() => {
-        const root = document.documentElement;
-        if (theme === 'dark') {
-            root.classList.add('dark');
-        } else {
-            root.classList.remove('dark');
+        if (typeof window !== 'undefined') {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            setTheme(savedTheme);
         }
-        localStorage.setItem('theme', theme);
+    }, []);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const root = document.documentElement;
+            if (theme === 'dark') {
+                root.classList.add('dark');
+            } else {
+                root.classList.remove('dark');
+            }
+            localStorage.setItem('theme', theme);
+        }
     }, [theme]);
 
     const isChecked = theme === 'dark';
