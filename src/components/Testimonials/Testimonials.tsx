@@ -48,18 +48,18 @@ const Testimonials = () => {
             <div className='container'>
                 {/* header section */}
                 <div className='text-center mb-10 max-w-[600px] mx-auto'>
-                    <p className='text-orange-500 text-sm'>
+                    <p data-aos="fade-up" className='text-orange-500 text-sm'>
                         What our customers are saying
                     </p>
-                    <h1 className='text-3xl text-gray-400 font-bold'>
+                    <h1 data-aos="fade-up" className='text-3xl text-gray-400 font-bold'>
                         Testimonials
                     </h1>
-                    <p className='text-xs text-gray-400'>
+                    <p data-aos="fade-up" className='text-xs text-gray-400'>
                         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit asperiores modi Sit asperiores modical
                     </p>
                 </div>
                 {/* body seciton */}
-                <div>
+                <div data-aos="zoom-in">
                     <Slider {...settings}>
                         {
                             TestimonialData.map((data) => (

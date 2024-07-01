@@ -8,8 +8,8 @@ const Products = () => {
             <div className='container'>
                 {/* header section */}
                 <div className='text-center mb-10 max-w-[600px] mx-auto'>
-                    <p className='text-sm text-orange-500'>Top selling products for you</p>
-                    <h1 className='text-3xl font-bold'>Products</h1>
+                    <p data-aos="fade-up" className='text-sm text-orange-500'>Top selling products for you</p>
+                    <h1 data-aos="fade-up" className='text-3xl font-bold'>Products</h1>
                 </div>
                 {/* body section */}
                 <div>

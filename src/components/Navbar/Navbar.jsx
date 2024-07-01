@@ -61,7 +61,10 @@ const Navbar = () => {
               )
             }
             {toggle && (
-              <div className='sm:hidden block absolute top-14 left-[-20px] w-[200px] h-screen bg-white dark:bg-gray-900'>
+              <div
+                data-aos="fade-right"
+                data-aos-offset="300"
+                data-aos-easing="ease-in-sine" className='sm:hidden block absolute top-14 left-[-20px] w-[200px] h-screen bg-white dark:bg-gray-900'>
                 <ul className='flex flex-col'>
                   {Menu.map((data) => (
                     <li key={data.id}>
@@ -100,15 +103,15 @@ const Navbar = () => {
                 placeholder='search'
                 className='w-[150px] group-hover:w-[200px]  sm:w-[200px] sm:group-hover:w-[300px] transition-all duration-300 rounded-full border border-gray-100 px-4 py-1 focus:outline-none focus:border focus:border-orange-400 dark:text-white dark:bg-gray-800'
               />
-              <button>
+              <Link href={'/search'}>
                 <FaSearch className='absolute top-3 right-2 group-hover:text-orange-500 dark:text-white' />
-              </button>
+              </Link>
             </div>
             {/* order button */}
-            <button className='bg-gradient-to-r from-orange-400 to-orange-600 transition-all duration-200 text-white py-1 px-4 rounded-full flex items-center gap-3 group'>
+            <Link href="/order" className='bg-gradient-to-r from-orange-400 to-orange-600 transition-all duration-200 text-white py-1 px-4 rounded-full flex items-center gap-3 group'>
               <span className='hidden group-hover:block transition-all duration-200'>Order</span>
               <FaCartArrowDown className={'text-xl text-white drop-shadow-sm cursor-pointer'} />
-            </button>
+            </Link>
             {/* darkTheme */}
             <div>
               <DarkMode />
@@ -118,7 +121,10 @@ const Navbar = () => {
       </div>
 
       {/* lower Navbar */}
-      <div className={"flex justify-center "}>
+      <div
+        data-aos="zoom-out"
+        data-aos-duration="500"
+        data-aos-delay="100" className={"flex justify-center"}>
         <ul className='sm:flex hidden items-center gap-4 py-2'>
           {
             Menu.map((data) => (

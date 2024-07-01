@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import { FaStar } from "react-icons/fa6";
 
@@ -5,8 +6,14 @@ import { FaStar } from "react-icons/fa6";
 const Card = ({ data }: any) => {
     return (
         <>
-            <div className='space-y-3'>
-                <img src={data.img} alt="image" className='w-[300px] h-[220px] object-cover rounded-md' />
+
+            <div
+                data-aos="fade-up"
+                data-aos-delay={data.aosDelay}
+                className='space-y-3'>
+                <Link href={`productDetails/${data.id}`}>
+                    <img src={data.img} alt="image" className='w-[300px] h-[220px] object-cover rounded-md' />
+                </Link>
                 <div>
                     <h3 className='font-semibold'>{data.title}</h3>
                     <p className='text-sm text-gray-600'>{data.color}</p>
@@ -16,6 +23,7 @@ const Card = ({ data }: any) => {
                     </div>
                 </div>
             </div>
+
         </>
     )
 }

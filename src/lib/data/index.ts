@@ -7,17 +7,17 @@ export const Menu = [
     {
         id: 2,
         name: 'Top Rated',
-        link: "/services"
+        link: "/toprated"
     },
     {
         id: 3,
         name: 'Kind Wear',
-        link: "/#"
+        link: "/kindwear"
     },
     {
         id: 4,
         name: 'Mens Wear',
-        link: "/#"
+        link: "/menswear"
     },
 ];
 
@@ -30,12 +30,12 @@ export const DropdownLinks = [
     {
         id: 2,
         name: "Best Selling",
-        link: '/#'
+        link: '/bestselling'
     },
     {
         id: 3,
         name: "Top Rated",
-        link: '/#'
+        link: '/toprated'
     }
 ];
 
