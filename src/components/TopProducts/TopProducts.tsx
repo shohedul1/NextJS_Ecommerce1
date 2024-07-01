@@ -19,7 +19,7 @@ const TopProducts = () => {
 
             </div>
             {/* body section */}
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-20 md:gap-5 place-items-center'>
+            <div className='pt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-30 md:gap-5 place-items-center'>
               
                 {
                     TopProductsData.map((data)=>(
