@@ -68,9 +68,42 @@ export const ProductsData = [
         id: 1,
         img: "https://res.cloudinary.com/djhjt07rh/image/upload/v1719242342/next.js_blog_images/xdv5rha2bvmubo0lbxly.png",
         title: "Women Ethnic",
-        rating: 5.0,
+        rating: 3.5,
+        price: 50,
+        category:'Top Rated',
+        description: 'askfdjlkasjdfklasjdflkajsdlfkj',
         color: "white",
-        aosDelay: "0",
+        aosDelay: "100",
+        workPhotoPaths: [
+            {
+                "id": 1,
+                "url": "https://res.cloudinary.com/djhjt07rh/image/upload/v1719242342/next.js_blog_images/xdv5rha2bvmubo0lbxly.png"
+            },
+            {
+                "id": 2,
+                "url": "https://res.cloudinary.com/djhjt07rh/image/upload/v1719242342/next.js_blog_images/xdv5rha2bvmubo0lbxly.png"
+            },
+            {
+                "id": 3,
+                "url": "https://res.cloudinary.com/djhjt07rh/image/upload/v1719242342/next.js_blog_images/xdv5rha2bvmubo0lbxly.png"
+            },
+            {
+                "id": 4,
+                "url": "https://res.cloudinary.com/djhjt07rh/image/upload/v1719242342/next.js_blog_images/xdv5rha2bvmubo0lbxly.png"
+            },
+            {
+                "id": 5,
+                "url": "https://res.cloudinary.com/djhjt07rh/image/upload/v1719242342/next.js_blog_images/xdv5rha2bvmubo0lbxly.png"
+            },
+            {
+                "id": 6,
+                "url": "https://res.cloudinary.com/djhjt07rh/image/upload/v1719242342/next.js_blog_images/xdv5rha2bvmubo0lbxly.png"
+            },
+            {
+                "id": 7,
+                "url": "https://res.cloudinary.com/djhjt07rh/image/upload/v1719242342/next.js_blog_images/xdv5rha2bvmubo0lbxly.png"
+            }
+        ]
     },
     {
         id: 2,
@@ -159,20 +192,20 @@ export const TestimonialData = [
 
 export const FooterLinks = [
     {
-      title: "Home",
-      link: "/",
+        title: "Home",
+        link: "/",
     },
     {
-      title: "About",
-      link: "/about",
+        title: "About",
+        link: "/about",
     },
     {
-      title: "Contact",
-      link: "/contact",
+        title: "Contact",
+        link: "/contact",
     },
     {
-      title: "Blog",
-      link: "/blog",
+        title: "Blog",
+        link: "/blog",
     },
-  ];
+];
 

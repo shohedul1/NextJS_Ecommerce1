@@ -108,7 +108,7 @@ const Navbar = () => {
               </Link>
             </div>
             {/* order button */}
-            <Link href="/order" className='bg-gradient-to-r from-orange-400 to-orange-600 transition-all duration-200 text-white py-1 px-4 rounded-full flex items-center gap-3 group'>
+            <Link href="/cart" className='bg-gradient-to-r from-orange-400 to-orange-600 transition-all duration-200 text-white py-1 px-4 rounded-full flex items-center gap-3 group'>
               <span className='hidden group-hover:block transition-all duration-200'>Order</span>
               <FaCartArrowDown className={'text-xl text-white drop-shadow-sm cursor-pointer'} />
             </Link>
