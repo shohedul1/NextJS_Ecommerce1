@@ -25,12 +25,7 @@ export const DropdownLinks = [
     {
         id: 1,
         name: "Trending Products",
-        link: '/#'
-    },
-    {
-        id: 2,
-        name: "Best Selling",
-        link: '/bestselling'
+        link: '/trending'
     },
     {
         id: 3,
