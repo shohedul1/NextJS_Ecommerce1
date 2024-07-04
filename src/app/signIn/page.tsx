@@ -53,7 +53,7 @@ const SignIn = () => {
                         <FaGithub className='text-black' size={24} />
                     </button>
                     <div>
-                        <p>Don't have an account?<Link href={"/"} className="hover:text-red-200">Sign Up</Link></p>
+                        <p>Don&apos;t have an account?<Link href={"/"} className="hover:text-red-200">Sign Up</Link></p>
                     </div>
                 </div>
             </div>
