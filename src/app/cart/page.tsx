@@ -11,7 +11,7 @@ import { decreaseQuantity, deleteProduct, increaseQuantity, resetCart } from '@/
 const CartPage = () => {
     const { productData } = useSelector((state: any) => state?.shopping);
     const dispatch = useDispatch();
-    console.log('productData', productData)
+    // console.log('productData', productData)
 
     useEffect(() => {
         AOS.init({

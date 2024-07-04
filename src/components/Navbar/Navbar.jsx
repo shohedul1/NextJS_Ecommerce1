@@ -10,12 +10,16 @@ import { FaCaretDown } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
   const [header, setHeader] = useState(false);
   const router = useRouter();
   const [query, setQuery] = useState('');
-  console.log(query);
+  const { productData } = useSelector((state) => state?.shopping);
+
+
+  // console.log(query);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -114,9 +118,12 @@ const Navbar = () => {
               </Link>
             </div>
             {/* order button */}
-            <Link href="/cart" className='bg-gradient-to-r from-orange-400 to-orange-600 transition-all duration-200 text-white py-1 px-4 rounded-full flex items-center gap-3 group'>
+            <Link href="/cart" className='relative bg-gradient-to-r from-orange-400 to-orange-600 transition-all duration-200 text-white py-1 px-4 rounded-full flex items-center gap-3 group'>
               <span className='hidden group-hover:block transition-all duration-200'>Order</span>
               <FaCartArrowDown className={'text-xl text-white drop-shadow-sm cursor-pointer'} />
+              <p className='bg-white text-orange-600 rounded-full text-xs font-semibold absolute -right-2 -top-1 w-5 h-5 flex items-center justify-center shadow-xl shadow-black'>
+                {productData.length || 0}
+              </p>
             </Link>
             {/* darkTheme */}
             <div>
