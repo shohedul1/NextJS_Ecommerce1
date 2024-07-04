@@ -6,7 +6,9 @@ import { IoIosAddCircleOutline, IoIosRemoveCircleOutline } from 'react-icons/io'
 import { MdDelete, MdOutlineArrowCircleLeft } from 'react-icons/md';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
-import { decreaseQuantity, deleteProduct, increaseQuantity, resetCart } from '@/lib/redux/shoppingSlice';
+import { decreaseQuantity, deleteProduct, increaseQuantity, resetCart, saveOrder } from '@/lib/redux/shoppingSlice';
+import { useSession } from 'next-auth/react';
+import {loadStripe} from "@stripe/stripe-js";
 
 const CartPage = () => {
     const { productData } = useSelector((state: any) => state?.shopping);
@@ -33,6 +35,32 @@ const CartPage = () => {
         });
         setTotalAmt(amt);
     }, [productData]);
+
+    // Stripe Payment Start here
+    const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+    const { data: session } = useSession();
+
+    const handleCheckout = async () => {
+        const stripe = await stripePromise;
+        const response = await fetch("/api/checkout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                items: productData,
+                email: session?.user?.email,
+            }),
+        });
+        const data = await response.json();
+
+        if (response.ok) {
+            await dispatch(saveOrder({ order: productData, id: data.id }));
+            stripe?.redirectToCheckout({ sessionId: data.id });
+            dispatch(resetCart());
+        } else {
+            throw new Error("Failed to create Stripe Payment");
+        }
+    };
+    // Stripe Payment end here
     return (
         <div className=' py-10 bg-gray-200 dark:bg-black dark:text-white'>
             <div className='flex flex-col container'>
@@ -102,7 +130,7 @@ const CartPage = () => {
                             <MdOutlineArrowCircleLeft size={24} />
                             Continue Shopping
                         </Link>
-                        <button data-aos="fade-up" className="px-2 py-2 bg-lime-500" >
+                        <button onClick={handleCheckout} data-aos="fade-up" className="px-2 py-2 bg-lime-500" >
                             CHECK OUT NOW
                         </button>
                     </div>
@@ -114,3 +142,5 @@ const CartPage = () => {
 }
 
 export default CartPage
+
+

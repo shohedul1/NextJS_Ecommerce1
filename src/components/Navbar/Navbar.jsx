@@ -11,6 +11,7 @@ import { IoMdMenu } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
+import { signOut, useSession } from 'next-auth/react';
 
 const Navbar = () => {
   const [header, setHeader] = useState(false);
@@ -42,6 +43,15 @@ const Navbar = () => {
     setToggle(!toggle)
   }
 
+  const handleSearch = () => {
+    router.push(`/search/${query}`);
+    setQuery('');
+  };
+
+
+  const { data: session } = useSession();
+  console.log('session', session)
+
 
 
   return (
@@ -69,8 +79,12 @@ const Navbar = () => {
               <div
                 data-aos="fade-right"
                 data-aos-offset="300"
-                data-aos-easing="ease-in-sine" className='sm:hidden block absolute top-14 left-[-20px] w-[200px] h-screen bg-white dark:bg-gray-900'>
+                data-aos-easing="ease-in-sine"
+                className='sm:hidden block absolute top-14 left-[-20px] w-[200px] h-screen bg-white dark:bg-gray-900'>
                 <ul className='flex flex-col'>
+                  <div className='px-4'>
+                    logo
+                  </div>
                   {Menu.map((data) => (
                     <li key={data.id}>
                       <button onClick={() => {
@@ -99,7 +113,9 @@ const Navbar = () => {
                     </div>
                   </li>
                 </ul>
+
               </div>
+
             )}
           </div>
           {/* search bar and order button and dark button */}
@@ -113,9 +129,9 @@ const Navbar = () => {
                 onChange={(e) => setQuery(e.target.value)}
                 className='w-[150px] group-hover:w-[200px]  sm:w-[200px] sm:group-hover:w-[300px] transition-all duration-300 rounded-full border border-gray-100 px-4 py-1 focus:outline-none focus:border focus:border-orange-400 dark:text-white dark:bg-gray-800'
               />
-              <Link href={`/search/${query}`}>
+              <button onClick={handleSearch}>
                 <FaSearch className='absolute top-3 right-2 group-hover:text-orange-500 dark:text-white' />
-              </Link>
+              </button>
             </div>
             {/* order button */}
             <Link href="/cart" className='relative bg-gradient-to-r from-orange-400 to-orange-600 transition-all duration-200 text-white py-1 px-4 rounded-full flex items-center gap-3 group'>
@@ -172,6 +188,19 @@ const Navbar = () => {
               </ul>
             </div>
           </li>
+
+          {/* logo */}
+          {
+            session ? (
+              <button
+                onClick={() => signOut({ callbackUrl: "/" })}
+              >logout</button>
+            ) : (
+              <>
+                <Link href={"/signIn"}>singIn</Link>
+              </>
+            )
+          }
         </ul>
       </div>
 
@@ -180,6 +209,9 @@ const Navbar = () => {
 }
 
 export default Navbar;
+
+
+
 
 
 
