@@ -65,7 +65,7 @@ export const ProductsData = [
         title: "Women Ethnic",
         rating: 3.5,
         price: 50,
-        category:'Top Rated',
+        category: 'Top Rated',
         description: 'askfdjlkasjdfklasjdflkajsdlfkj',
         color: "white",
         aosDelay: "100",
@@ -203,4 +203,20 @@ export const FooterLinks = [
         link: "/blog",
     },
 ];
+
+export interface Product {
+    id: number;
+    img: string;
+    title: string;
+    description: string;
+    category: string;
+    rating: number;
+    color: string;
+    price: string;
+    quanty: number;
+    aosDelay: [{
+        id: string;
+        url: string
+    }]
+}
 

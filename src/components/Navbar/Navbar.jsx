@@ -9,13 +9,13 @@ import { DropdownLinks, Menu } from '@/lib/data';
 import { FaCaretDown } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
-
-
-
-
+import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
   const [header, setHeader] = useState(false);
+  const router = useRouter();
+  const [query, setQuery] = useState('');
+  console.log(query);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,8 +36,10 @@ const Navbar = () => {
 
   const handleClick = () => {
     setToggle(!toggle)
-
   }
+
+
+
   return (
     <div className={`${header ? "shadow-md" : ""} bg-white dark:bg-gray-900 dark:text-white sticky top-0 z-50`}>
       {/* upper Navbar */}
@@ -52,7 +54,6 @@ const Navbar = () => {
               toggle ? (
                 <button onClick={handleClick} className='sm:hidden block'>
                   <IoMdClose className='w-10 h-10' />
-
                 </button>
               ) : (
                 <button onClick={handleClick} className='sm:hidden block'>
@@ -68,9 +69,12 @@ const Navbar = () => {
                 <ul className='flex flex-col'>
                   {Menu.map((data) => (
                     <li key={data.id}>
-                      <Link href={data.link} className='block px-4 py-2 hover:text-orange-500 dark:hover:text-orange-500 duration-200 dark:text-white'>
+                      <button onClick={() => {
+                        router.push(`${data.link}`)
+                        setToggle(!toggle);
+                      }} className='block px-4 py-2 hover:text-orange-500 dark:hover:text-orange-500 duration-200 dark:text-white'>
                         {data.name}
-                      </Link>
+                      </button>
                     </li>
                   ))}
                   <li className='relative group cursor-pointer'>
@@ -100,10 +104,12 @@ const Navbar = () => {
             <div className='group relative'>
               <input
                 type="text"
-                placeholder='search'
+                placeholder='search...'
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
                 className='w-[150px] group-hover:w-[200px]  sm:w-[200px] sm:group-hover:w-[300px] transition-all duration-300 rounded-full border border-gray-100 px-4 py-1 focus:outline-none focus:border focus:border-orange-400 dark:text-white dark:bg-gray-800'
               />
-              <Link href={'/search'}>
+              <Link href={`/search/${query}`}>
                 <FaSearch className='absolute top-3 right-2 group-hover:text-orange-500 dark:text-white' />
               </Link>
             </div>

@@ -17,7 +17,7 @@ const Products = () => {
 
 
     const getWorkList = async () => {
-        const response = await fetch(`/api/product/${selectedCategory}`);
+        const response = await fetch(`/api/product/list/${selectedCategory}`);
         const data = await response.json();
         setWorkList(data);
     };

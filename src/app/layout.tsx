@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
+import Layout from "@/components/Layout/Layout";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,13 +21,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>
 ) {
-  
+
 
   return (
     <html lang="en">
       <body className={inter.className}>
         <Navbar />
-        {children}
+        <Layout>
+          {children}
+        </Layout>
         <Footer />
       </body>
     </html>

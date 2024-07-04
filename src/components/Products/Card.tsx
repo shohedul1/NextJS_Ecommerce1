@@ -3,7 +3,9 @@ import React from 'react';
 import { FaStar } from "react-icons/fa6";
 
 
+
 const Card = ({ data }: any) => {
+
     return (
         <>
 
@@ -11,7 +13,7 @@ const Card = ({ data }: any) => {
                 data-aos="fade-up"
                 data-aos-delay={data.aosDelay}
                 className='space-y-3'>
-                <Link href={`productDetails/${data.id}`}>
+                <Link href={`productDetails/${data._id}`}>
                     <img src={data.img} alt="image" className='w-[300px] h-[220px] object-cover rounded-md' />
                 </Link>
                 <div>
