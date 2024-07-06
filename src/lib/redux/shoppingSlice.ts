@@ -11,10 +11,10 @@ interface Product {
     color: string;
     price: string;
     quanty: number;
-    aosDelay:string;
+    aosDelay: string;
     workPhotoPaths: [{
-      id: string;
-      url: string
+        id: string;
+        url: string
     }]
 }
 
@@ -75,6 +75,9 @@ export const shoppingSlice = createSlice({
         resetOrder: (state) => {
             state.orderData = []
         },
+        deleteOrderProduct: (state: any, action) => {
+            state.orderData.order = state.orderData.order.filter((item: Product) => item.id !== action.payload);
+        }
     }
 });
 
@@ -87,7 +90,9 @@ export const {
     addUser,
     deleteUser,
     saveOrder,
-    resetOrder } = shoppingSlice.actions;
+    resetOrder,
+    deleteOrderProduct
+ } = shoppingSlice.actions;
 
 
 export default shoppingSlice.reducer;

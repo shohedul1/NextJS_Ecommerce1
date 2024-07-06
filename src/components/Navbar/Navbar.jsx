@@ -1,3 +1,5 @@
+
+
 'use client';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
@@ -18,9 +20,9 @@ const Navbar = () => {
   const router = useRouter();
   const [query, setQuery] = useState('');
   const { productData } = useSelector((state) => state?.shopping);
-
-
-  // console.log(query);
+  const { orderData } = useSelector((state) => state?.shopping);
+  const [openMenu, setOpenMenu] = useState(false);
+  const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,22 +39,16 @@ const Navbar = () => {
     };
   }, []);
 
-  const [toggle, setToggle] = useState(false)
-
   const handleClick = () => {
-    setToggle(!toggle)
-  }
+    setToggle(!toggle);
+  };
 
   const handleSearch = () => {
     router.push(`/search/${query}`);
     setQuery('');
   };
 
-
   const { data: session } = useSession();
-  console.log('session', session)
-
-
 
   return (
     <div className={`${header ? "shadow-md" : ""} bg-white dark:bg-gray-900 dark:text-white sticky top-0 z-50`}>
@@ -84,14 +80,23 @@ const Navbar = () => {
                 <ul className='flex flex-col'>
                   {
                     session ? (
-                      <div className='relative cursor-pointer group px-4'>
-                        <div className='w-10 h-10'>
+                      <div className='relative cursor-pointer px-4'>
+                        <button onClick={() => setOpenMenu((prev) => !prev)} className='w-10 h-10'>
                           <img src={session?.user?.image || "https://res.cloudinary.com/djhjt07rh/image/upload/v1720252708/Ecommerce-Logo-Design-Graphics-32523051-1_utx2uq.jpg"} alt="image" className='w-full h-full rounded-full' />
-                        </div>
-                        <div className='absolute z-[9999] top-0 right-16 hidden text-center group-hover:block  rounded-md bg-white shadow-md p-2 text-black'>
-                          <button className='bg-blue-500 text-white px-2 py-2 rounded-full'
-                            onClick={() => signOut({ callbackUrl: "/signIn" })}
-                          >logout</button>
+                        </button>
+                        <div className={`absolute z-[9999] top-12 right-0 w-full text-center bg-white dark:bg-gray-900 p-2 rounded-md shadow-md ${openMenu ? "block" : "hidden"}`}>
+                          <div className='flex flex-col gap-2'>
+                            {
+                              orderData.order && (
+                                <button onClick={() => { router.push("/order"); setToggle(false); }} className='bg-blue-500 text-white px-2 py-2 rounded-full'>
+                                  Order view
+                                </button>
+                              )
+                            }
+                            <button className='bg-blue-500 text-white px-2 py-2 rounded-full'
+                              onClick={() => signOut({ callbackUrl: "/signIn" })}
+                            >logout</button>
+                          </div>
                         </div>
                       </div>
                     ) : (
@@ -99,7 +104,7 @@ const Navbar = () => {
                         <button
                           onClick={() => {
                             router.push("/signIn");
-                            setToggle(!toggle);
+                            setToggle(false);
                           }}
                           className='px-4'>
                           SignIn
@@ -110,8 +115,8 @@ const Navbar = () => {
                   {Menu.map((data) => (
                     <li key={data.id}>
                       <button onClick={() => {
-                        router.push(`${data.link}`)
-                        setToggle(!toggle);
+                        router.push(`${data.link}`);
+                        setToggle(false);
                       }} className='block px-4 py-2 hover:text-orange-500 dark:hover:text-orange-500 duration-200 dark:text-white'>
                         {data.name}
                       </button>
@@ -122,7 +127,7 @@ const Navbar = () => {
                       Trending
                       <FaCaretDown className='transition-all duration-200 group-hover:rotate-180' />
                     </a>
-                    <div className='absolute z-50 hidden group-hover:block left-0 w-full bg-white  p-2 text-black dark:bg-gray-900 dark:text-white'>
+                    <div className='absolute z-50 hidden group-hover:block left-0 w-full bg-white p-2 text-black dark:bg-gray-900 dark:text-white'>
                       <ul>
                         {DropdownLinks.map((data) => (
                           <li key={data.id}>
@@ -135,9 +140,7 @@ const Navbar = () => {
                     </div>
                   </li>
                 </ul>
-
               </div>
-
             )}
           </div>
           {/* search bar and order button and dark button */}
@@ -149,7 +152,7 @@ const Navbar = () => {
                 placeholder='search...'
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className='w-[150px] group-hover:w-[200px]  sm:w-[200px] sm:group-hover:w-[300px] transition-all duration-300 rounded-full border border-gray-100 px-4 py-1 focus:outline-none focus:border focus:border-orange-400 dark:text-white dark:bg-gray-800'
+                className='w-[150px] group-hover:w-[200px] sm:w-[200px] sm:group-hover:w-[300px] transition-all duration-300 rounded-full border border-gray-100 px-4 py-1 focus:outline-none focus:border focus:border-orange-400 dark:text-white dark:bg-gray-800'
               />
               <button onClick={handleSearch}>
                 <FaSearch className='absolute top-3 right-2 group-hover:text-orange-500 dark:text-white' />
@@ -221,15 +224,24 @@ const Navbar = () => {
                   </div>
 
                   <div className='absolute z-[9999] top-10 hidden text-center group-hover:block w-[160px] right-[-50px] rounded-md bg-white shadow-md p-2 text-black'>
-                    <button className='bg-blue-500 text-white px-2 py-2 rounded-full'
-                      onClick={() => signOut({ callbackUrl: "/signIn" })}
-                    >logout</button>
+                    <div className='flex flex-col gap-2'>
+                      {
+                        orderData.order && (
+                          <button onClick={() => { router.push("/order"); setToggle(false); }} className='bg-blue-500 text-white px-2 py-2 rounded-full'>
+                            Order view
+                          </button>
+                        )
+                      }
+                      <button className='bg-blue-500 text-white px-2 py-2 rounded-full'
+                        onClick={() => signOut({ callbackUrl: "/signIn" })}
+                      >logout</button>
+                    </div>
                   </div>
                 </div>
               </>
             ) : (
               <>
-                <Link href={"/signIn"}>singIn</Link>
+                <Link href={"/signIn"}>signIn</Link>
               </>
             )
           }
@@ -254,6 +266,7 @@ const Navbar = () => {
 }
 
 export default Navbar;
+
 
 
 
