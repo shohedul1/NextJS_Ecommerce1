@@ -17,7 +17,7 @@ const OrderPage = () => {
         <div className='flex flex-col gap-2 items-center justify-center py-5 dark:bg-black dark:text-white '>
             {
                 orderData?.order?.map((product: any) => (
-                    <div className='flex bg-red-50 justify-between container'>
+                    <div key={product.id} className='flex bg-red-50 justify-between container'>
 
                         <div className="flex gap-8 sm:gap-20 flex-col md:flex-row items-center text-xs">
                             <img
