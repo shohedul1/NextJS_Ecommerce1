@@ -7,6 +7,8 @@ import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 import { FaShoppingCart, FaStar } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
 import { addToCart } from '@/lib/redux/shoppingSlice';
+import { toast } from 'react-toastify';
+import Notification from '@/components/Notification/Notification';
 
 interface CartDetailPageProps {
   params: {
@@ -62,7 +64,7 @@ const CartDetailPage: React.FC<CartDetailPageProps> = ({ params }) => {
       }
     };
     getWorkDetails();
-  }, [workId]); 
+  }, [workId]);
   /* SLIDER FOR PHOTOS */
   const [currentIndex, setCurrentIndex] = useState(0);
   /* SHOW MORE PHOTOS */
@@ -175,7 +177,12 @@ const CartDetailPage: React.FC<CartDetailPageProps> = ({ params }) => {
                 {/* card add button */}
                 <div data-aos="fade-up">
                   <button
-                    onClick={() => { dispatch(addToCart(work)) }}
+                    onClick={() => {
+                      dispatch(addToCart(work));
+                      toast.success(`add to ${work.title.substring(0, 15)}`, {
+                        position: 'top-center'
+                      });
+                    }}
                     className='flex items-center gap-1 px-4 py-2 bg-blue-500 rounded-md hover:scale-105 duration-300 transition-all'>
                     <FaShoppingCart />
                     AddCart
@@ -186,6 +193,7 @@ const CartDetailPage: React.FC<CartDetailPageProps> = ({ params }) => {
           </div>
         )}
       </div>
+      <Notification />
     </>
   );
 }

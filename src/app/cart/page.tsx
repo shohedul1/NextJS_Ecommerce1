@@ -8,12 +8,14 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { decreaseQuantity, deleteProduct, increaseQuantity, resetCart, saveOrder } from '@/lib/redux/shoppingSlice';
 import { useSession } from 'next-auth/react';
-import {loadStripe} from "@stripe/stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { useRouter } from 'next/navigation';
 
 const CartPage = () => {
     const { productData } = useSelector((state: any) => state?.shopping);
     const dispatch = useDispatch();
-    // console.log('productData', productData)
+    const [loading, setLoding] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         AOS.init({
@@ -41,6 +43,7 @@ const CartPage = () => {
     const { data: session } = useSession();
 
     const handleCheckout = async () => {
+        setLoding(true);
         const stripe = await stripePromise;
         const response = await fetch("/api/checkout", {
             method: "POST",
@@ -56,8 +59,11 @@ const CartPage = () => {
             await dispatch(saveOrder({ order: productData, id: data.id }));
             stripe?.redirectToCheckout({ sessionId: data.id });
             dispatch(resetCart());
+            setLoding(false)
         } else {
+            setLoding(false)
             throw new Error("Failed to create Stripe Payment");
+
         }
     };
     // Stripe Payment end here
@@ -130,9 +136,24 @@ const CartPage = () => {
                             <MdOutlineArrowCircleLeft size={24} />
                             Continue Shopping
                         </Link>
-                        <button onClick={handleCheckout} data-aos="fade-up" className="px-2 py-2 bg-lime-500" >
-                            CHECK OUT NOW
-                        </button>
+
+                        {session && (
+                            <button onClick={handleCheckout} data-aos="fade-up" className="px-2 py-2 rounded-md hover:bg-lime-900 hover:text-white bg-lime-500 text-black font-bold text-xl" >
+                                {loading ? 'SUBMIT NOW..' : 'CHECK OUT NOW'}
+                            </button>
+
+                        )}
+                        {
+                            !session && (
+                                <>
+                                    <button onClick={() => { router.push("/signup") }} data-aos="fade-up" className="px-2 py-2 rounded-md hover:bg-lime-900 hover:text-white bg-lime-500 text-black font-bold text-xl" >
+                                        CHECK OUT NOW
+                                    </button>
+
+                                    <p>Please login to continue</p>
+                                </>
+                            )
+                        }
                     </div>
                 </div>
             </div>

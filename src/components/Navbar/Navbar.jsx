@@ -82,9 +82,31 @@ const Navbar = () => {
                 data-aos-easing="ease-in-sine"
                 className='sm:hidden block absolute top-14 left-[-20px] w-[200px] h-screen bg-white dark:bg-gray-900'>
                 <ul className='flex flex-col'>
-                  <div className='px-4'>
-                    logo
-                  </div>
+                  {
+                    session ? (
+                      <div className='relative cursor-pointer group px-4'>
+                        <div className='w-10 h-10'>
+                          <img src={session?.user?.image || "https://res.cloudinary.com/djhjt07rh/image/upload/v1720252708/Ecommerce-Logo-Design-Graphics-32523051-1_utx2uq.jpg"} alt="image" className='w-full h-full rounded-full' />
+                        </div>
+                        <div className='absolute z-[9999] top-0 right-16 hidden text-center group-hover:block  rounded-md bg-white shadow-md p-2 text-black'>
+                          <button className='bg-blue-500 text-white px-2 py-2 rounded-full'
+                            onClick={() => signOut({ callbackUrl: "/signIn" })}
+                          >logout</button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <button
+                          onClick={() => {
+                            router.push("/signIn");
+                            setToggle(!toggle);
+                          }}
+                          className='px-4'>
+                          SignIn
+                        </button>
+                      </div>
+                    )
+                  }
                   {Menu.map((data) => (
                     <li key={data.id}>
                       <button onClick={() => {
@@ -137,7 +159,7 @@ const Navbar = () => {
             <Link href="/cart" className='relative bg-gradient-to-r from-orange-400 to-orange-600 transition-all duration-200 text-white py-1 px-4 rounded-full flex items-center gap-3 group'>
               <span className='hidden group-hover:block transition-all duration-200'>Order</span>
               <FaCartArrowDown className={'text-xl text-white drop-shadow-sm cursor-pointer'} />
-              <p className='bg-white text-orange-600 rounded-full text-xs font-semibold absolute -right-2 -top-1 w-5 h-5 flex items-center justify-center shadow-xl shadow-black'>
+              <p className='bg-white text-orange-600 rounded-full text-xs font-semibold absolute -right-2 -top-1 w-5 h-5 items-center flex justify-center shadow-xl shadow-black'>
                 {productData.length || 0}
               </p>
             </Link>
@@ -192,15 +214,38 @@ const Navbar = () => {
           {/* logo */}
           {
             session ? (
-              <button
-                onClick={() => signOut({ callbackUrl: "/" })}
-              >logout</button>
+              <>
+                <div className='relative cursor-pointer group'>
+                  <div className='w-10 h-10'>
+                    <img src={session?.user?.image || "https://res.cloudinary.com/djhjt07rh/image/upload/v1720252708/Ecommerce-Logo-Design-Graphics-32523051-1_utx2uq.jpg"} alt="image" className='w-full h-full rounded-full' />
+                  </div>
+
+                  <div className='absolute z-[9999] top-10 hidden text-center group-hover:block w-[160px] right-[-50px] rounded-md bg-white shadow-md p-2 text-black'>
+                    <button className='bg-blue-500 text-white px-2 py-2 rounded-full'
+                      onClick={() => signOut({ callbackUrl: "/signIn" })}
+                    >logout</button>
+                  </div>
+                </div>
+              </>
             ) : (
               <>
                 <Link href={"/signIn"}>singIn</Link>
               </>
             )
           }
+
+          {
+            header && (
+              <Link href="/cart" className='relative bg-gradient-to-r from-orange-400 to-orange-600 transition-all duration-200 text-white py-1 px-4 rounded-full flex items-center gap-3 group'>
+                <span className='hidden group-hover:block transition-all duration-200'>Order</span>
+                <FaCartArrowDown className={'text-xl text-white drop-shadow-sm cursor-pointer'} />
+                <p className='bg-white text-orange-600 rounded-full text-xs font-semibold absolute -right-2 -top-1 w-5 h-5 items-center flex justify-center shadow-xl shadow-black'>
+                  {productData.length || 0}
+                </p>
+              </Link>
+            )
+          }
+
         </ul>
       </div>
 

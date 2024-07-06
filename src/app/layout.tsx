@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import Layout from "@/components/Layout/Layout";
+import Notification from "@/components/Notification/Notification";
 
 
 const inter = Inter({ subsets: ["latin"] });

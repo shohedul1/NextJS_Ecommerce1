@@ -8,6 +8,7 @@ import TopProducts from "@/components/TopProducts/TopProducts";
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Notification from "@/components/Notification/Notification";
 
 export default function Home() {
   useEffect(() => {
@@ -28,6 +29,7 @@ export default function Home() {
       <Subscribe />
       <Products />
       <Testimonials />
+      <Notification />
     </div>
   );
 }

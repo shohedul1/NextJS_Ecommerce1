@@ -18,7 +18,7 @@ declare module "next-auth" {
             id: string;
             name?: string | null;
             email?: string | null;
-            image?: string | null;
+            picture?: string | null;
         };
     }
 }
@@ -39,9 +39,7 @@ export const authOptions: NextAuthOptions = {
         GitHubProvider({
             clientId: process.env.GITHUB_ID!,
             clientSecret: process.env.GITHUB_SECRET!,
-
         }),
-
         CredentialsProvider({
             name: "Credentials",
             credentials: {
@@ -56,7 +54,6 @@ export const authOptions: NextAuthOptions = {
 
                 await connect();
 
-                /* Check if the user exists */
                 const user = await User.findOne({ email: credentials.email });
 
                 if (!user) {
@@ -64,19 +61,15 @@ export const authOptions: NextAuthOptions = {
                     throw new Error("Invalid Email or Password");
                 }
 
-                /* Compare password */
-                const isMatch: boolean = await compare(credentials.password, user.password);
+                const isMatch = await compare(credentials.password, user.password);
 
                 if (!isMatch) {
                     console.log("Password mismatch");
                     throw new Error("Invalid Email or Password");
                 }
 
-                // console.log("User authorized", user);
-
                 return user;
             },
-
         }),
     ],
 
@@ -101,26 +94,19 @@ export const authOptions: NextAuthOptions = {
                 try {
                     await connect();
 
-                    // console.log("Google Profile:", profile); // Log the profile object
+                    // console.log('Profile:', profile); // Log the profile object
 
-                    /* Check if the user exists */
                     let user = await User.findOne({ email: profile?.email });
 
                     if (!user) {
                         user = await User.create({
                             email: profile?.email,
                             name: profile?.name || '',
-                            avatar: profile?.image || '',
+                            image: (profile as Profile)?.picture || '', // Type assertion
                             password: 'random-generated-password',
-                            designation: '',
-                            age: '',
-                            location: '',
-                            about: '',
-                            country: ''
                         });
                     }
 
-                    // console.log("User signed in", user);
                     return true;
                 } catch (err: any) {
                     console.log("Error checking if user exists: ", err.message);
@@ -128,9 +114,7 @@ export const authOptions: NextAuthOptions = {
                 }
             }
 
-            // console.log("Account provider is not Google");
             return true;
-        }
-
+        },
     },
 };

@@ -15,29 +15,8 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        designation: {
+        image: {
             type: String,
-            default: "",
-        },
-        avatar: {
-            type: Object,
-            default: "",
-        },
-        age: {
-            type: String,
-            default: "",
-        },
-        country: {
-            type: String,
-            default: "",
-        },
-        location: {
-            type: String,
-            default: "",
-        },
-        about: {
-            type: String,
-            default: "",
         },
     },
     { timestamps: true }
