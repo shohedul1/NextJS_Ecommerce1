@@ -19,10 +19,11 @@ const Navbar = () => {
   const [header, setHeader] = useState(false);
   const router = useRouter();
   const [query, setQuery] = useState('');
-  const { productData } = useSelector((state) => state?.shopping);
+  const { productData, favoriteData } = useSelector((state) => state?.shopping);
   const { orderData } = useSelector((state) => state?.shopping);
   const [openMenu, setOpenMenu] = useState(false);
   const [toggle, setToggle] = useState(false);
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -90,6 +91,13 @@ const Navbar = () => {
                               orderData.order && (
                                 <button onClick={() => { router.push("/order"); setToggle(false); }} className='bg-blue-500 text-white px-2 py-2 rounded-full'>
                                   Order view
+                                </button>
+                              )
+                            }
+                            {
+                              favoriteData.length > 0 && (
+                                <button onClick={() => { router.push("/wishlist"); setToggle(false); }} className='bg-blue-500 text-white px-2 py-2 rounded-full'>
+                                  Wishlist
                                 </button>
                               )
                             }
@@ -229,6 +237,13 @@ const Navbar = () => {
                         orderData.order && (
                           <button onClick={() => { router.push("/order"); setToggle(false); }} className='bg-blue-500 text-white px-2 py-2 rounded-full'>
                             Order view
+                          </button>
+                        )
+                      }
+                      {
+                        favoriteData.length > 0 && (
+                          <button onClick={() => { router.push("/wishlist"); setToggle(false); }} className='bg-blue-500 text-white px-2 py-2 rounded-full'>
+                            Wishlist
                           </button>
                         )
                       }

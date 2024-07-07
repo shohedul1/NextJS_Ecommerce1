@@ -1,4 +1,4 @@
-import { FooterLinks } from '@/lib/data';
+import { FooterLinks, Menu } from '@/lib/data';
 import Link from 'next/link';
 import React from 'react'
 import { FaFacebook, FaInstagram, FaLinkedin, FaLocationArrow, FaMobileAlt, FaSdCard } from 'react-icons/fa';
@@ -53,12 +53,12 @@ const Footer = () => {
                                     Links
                                 </h1>
                                 <ul className="flex flex-col gap-3">
-                                    {FooterLinks.map((link) => (
+                                    {Menu.map((link) => (
                                         <li
                                             className="cursor-pointer hover:text-orange-500 hover:translate-x-1 duration-300 text-gray-200"
-                                            key={link.title}
+                                            key={link.name}
                                         >
-                                            <Link href={link.link} >{link.title}</Link>
+                                            <Link href={link.link} >{link.name}</Link>
                                         </li>
                                     ))}
                                 </ul>
@@ -67,15 +67,15 @@ const Footer = () => {
 
                         <div>
                             <div className="flex items-center gap-3 mt-6">
-                                <a href="#">
-                                    <FaInstagram className="text-3xl" />
-                                </a>
-                                <a href="#">
-                                    <FaFacebook className="text-3xl" />
-                                </a>
-                                <a href="#">
-                                    <FaLinkedin className="text-3xl" />
-                                </a>
+                                <Link href="https://www.instagram.com/pramanikshohidul">
+                                    <FaInstagram className="text-3xl hover:text-red-300 hover:duration-300 transition-all" />
+                                </Link>
+                                <Link href="https://www.facebook.com/profile.php?id=61555415826830">
+                                    <FaFacebook className="text-3xl hover:text-red-300 hover:duration-300 transition-all" />
+                                </Link>
+                                <Link href="https://www.linkedin.com/in/shohedul-islam-5b8273318">
+                                    <FaLinkedin className="text-3xl hover:text-red-300 hover:duration-300 transition-all" />
+                                </Link>
                             </div>
                             <div className="mt-6">
                                 <div className="flex items-center gap-3">

@@ -22,12 +22,14 @@ interface ShoppingState {
     productData: Product[];
     userInfo: any | null;
     orderData: any[];
+    favoriteData: any[],
 }
 
 const initialState: ShoppingState = {
     productData: [],
     userInfo: null,
     orderData: [],
+    favoriteData: []
 }
 
 export const shoppingSlice = createSlice({
@@ -77,7 +79,27 @@ export const shoppingSlice = createSlice({
         },
         deleteOrderProduct: (state: any, action) => {
             state.orderData.order = state.orderData.order.filter((item: Product) => item.id !== action.payload);
-        }
+        },
+        addToFavorite: (state, action) => {
+            const existingProduct = state.favoriteData.find(
+                (item: any) => item.id === action.payload.id
+            );
+            if (existingProduct) {
+                state.favoriteData = state.favoriteData.filter(
+                    (item) => item.id !== action.payload.id
+                );
+            } else {
+                state.favoriteData.push(action.payload);
+            }
+        },
+        deleteFavorite: (state, action)=>{
+            state.favoriteData = state.favoriteData.filter(
+                (item) => item.id !== action.payload
+            );
+        },
+        resetFavorite: (state) => {
+            state.favoriteData = [];
+        },
     }
 });
 
@@ -91,8 +113,11 @@ export const {
     deleteUser,
     saveOrder,
     resetOrder,
-    deleteOrderProduct
- } = shoppingSlice.actions;
+    deleteOrderProduct,
+    addToFavorite,
+    deleteFavorite,
+    resetFavorite,
+} = shoppingSlice.actions;
 
 
 export default shoppingSlice.reducer;

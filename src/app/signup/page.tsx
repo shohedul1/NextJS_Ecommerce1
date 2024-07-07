@@ -72,7 +72,7 @@ const SignUp = () => {
           });
           setState(initialState);
           setTimeout(() => {
-            router.push('/signin');
+            router.push('/signIn');
           }, 1000);
         } else {
           toast.error(data.message, {
@@ -101,7 +101,7 @@ const SignUp = () => {
     AOS.refresh();
   }, []);
 
-  console.log(state)
+  // console.log(state)
 
   return (
     <>
@@ -115,6 +115,7 @@ const SignUp = () => {
                 className='px-4 p-2 placeholder:text-black rounded-md focus:outline-none focus:border-red-200 focus:ring-2 focus:ring-red-200'
                 type="text"
                 name='name'
+                autoComplete="current-name"
                 required
                 placeholder='Enter your name..'
                 value={state.name}
@@ -128,6 +129,7 @@ const SignUp = () => {
                 type="email"
                 required
                 name='email'
+                autoComplete="current-email"
                 placeholder='Enter your email..'
                 value={state.email}
                 onChange={handleChange}
@@ -141,6 +143,7 @@ const SignUp = () => {
                   type={showPassword ? 'password' : 'text'}
                   placeholder='Enter your password..'
                   name='password'
+                  autoComplete="current-password"
                   required
                   value={state.password}
                   onChange={handleChange}
@@ -182,7 +185,7 @@ const SignUp = () => {
               <FaGithub className='text-black' size={24} />
             </button>
             <div data-aos="fade-up-left">
-              <p>Already have an account?<Link href={"/signin"} className="hover:text-red-200">Sign In</Link></p>
+              <p>Already have an account?<Link href={"/signIn"} className="hover:text-red-200">Sign In</Link></p>
             </div>
           </div>
         </div>

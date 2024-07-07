@@ -2,13 +2,15 @@
 import React, { useEffect, useState } from 'react';
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Favoraties from './components/Favoraties/Favoraties';
-import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
+import { MdArrowBackIosNew, MdArrowForwardIos, MdFavorite } from 'react-icons/md';
 import { FaShoppingCart, FaStar } from "react-icons/fa";
-import { useDispatch } from 'react-redux';
-import { addToCart } from '@/lib/redux/shoppingSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart, addToFavorite } from '@/lib/redux/shoppingSlice';
 import { toast } from 'react-toastify';
 import Notification from '@/components/Notification/Notification';
+import { RootState } from '@/lib/redux/store';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 interface CartDetailPageProps {
   params: {
@@ -37,7 +39,10 @@ const CartDetailPage: React.FC<CartDetailPageProps> = ({ params }) => {
   const workId = params.id;
   const [work, setWork] = useState<Product | null>(null);
   const dispatch = useDispatch();
-  // console.log(work)
+  const favoriteData = useSelector((state: RootState) => state.shopping.favoriteData);
+  const [love, setLove] = useState(false);
+  const { data: session } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     AOS.init({
@@ -59,12 +64,14 @@ const CartDetailPage: React.FC<CartDetailPageProps> = ({ params }) => {
         }
         const data = await response.json();
         setWork(data);
+        setLove(favoriteData.some((item: Product) => item.id === data.id));
       } catch (error) {
         console.error("Error fetching product data:", error);
       }
     };
     getWorkDetails();
-  }, [workId]);
+  }, [workId, favoriteData]);
+
   /* SLIDER FOR PHOTOS */
   const [currentIndex, setCurrentIndex] = useState(0);
   /* SHOW MORE PHOTOS */
@@ -96,7 +103,25 @@ const CartDetailPage: React.FC<CartDetailPageProps> = ({ params }) => {
   };
 
   const roundedRating = Math.round(work?.rating || 0);
-  const stars = Array(roundedRating).fill(<FaStar />);
+  const stars = Array(roundedRating).fill(null).map((_, index) => (
+    <FaStar key={index} />
+  ));
+
+  const handleFavoriteClick = () => {
+    if (!session) {
+      router.push("/signup");
+    } else {
+      if (work) {
+        setLove(!love);
+        dispatch(addToFavorite(work));
+        if (favoriteData.some((favoriteItem: Product) => favoriteItem.id === work.id)) {
+          toast.error(`${work.title.substring(0, 15)} removed from favorites!`);
+        } else {
+          toast.success(`${work.title.substring(0, 15)} added to favorites!`);
+        }
+      }
+    }
+  };
 
   return (
     <>
@@ -109,7 +134,15 @@ const CartDetailPage: React.FC<CartDetailPageProps> = ({ params }) => {
                 <h1 data-aos="fade-up">{work.color}</h1>
                 {/* favoriteIcons */}
                 <div data-aos="fade-up">
-                  <Favoraties />
+                  <div
+                    className="flex items-center gap-2.5 cursor-pointer"
+                    onClick={handleFavoriteClick}
+                  >
+                    <div className='flex items-center gap-1 group'>
+                      <MdFavorite className={love ? "text-red-500" : "text-black dark:text-white"} size={24} />
+                      <p className={'group-hover:text-red-500'}>Save</p>
+                    </div>
+                  </div>
                 </div>
               </div>
               {/* body section */}
@@ -118,7 +151,7 @@ const CartDetailPage: React.FC<CartDetailPageProps> = ({ params }) => {
                   <div className='flex transition-transform duration-500 ease-in'
                     style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
                     {work.workPhotoPaths.map((photo, index) => (
-                      <div key={index}
+                      <div key={photo.id}
                         className="relative flex-none w-full h-auto flex items-center" >
                         <img src={photo.url} alt="work" className="w-full h-[500px] object-fill" />
                         <div
@@ -144,7 +177,7 @@ const CartDetailPage: React.FC<CartDetailPageProps> = ({ params }) => {
                     <img
                       src={photo.url}
                       alt="work-demo"
-                      key={index}
+                      key={photo.id}
                       onClick={() => handleSelectedPhoto(index)}
                       className={`cursor-pointer w-36 h-36 ${selectedPhoto === index ? "border-2 border-black border-solid" : ""}`}
                     />
@@ -179,13 +212,13 @@ const CartDetailPage: React.FC<CartDetailPageProps> = ({ params }) => {
                   <button
                     onClick={() => {
                       dispatch(addToCart(work));
-                      toast.success(`add to ${work.title.substring(0, 15)}`, {
+                      toast.success(`Added ${work.title.substring(0, 15)} to cart`, {
                         position: 'top-center'
                       });
                     }}
                     className='flex items-center gap-1 px-4 py-2 bg-blue-500 rounded-md hover:scale-105 duration-300 transition-all'>
                     <FaShoppingCart />
-                    AddCart
+                    Add to Cart
                   </button>
                 </div>
               </div>
@@ -199,3 +232,4 @@ const CartDetailPage: React.FC<CartDetailPageProps> = ({ params }) => {
 }
 
 export default CartDetailPage;
+
