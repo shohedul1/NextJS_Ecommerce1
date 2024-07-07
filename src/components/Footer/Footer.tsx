@@ -1,7 +1,9 @@
+'use client';
 import { FooterLinks, Menu } from '@/lib/data';
 import Link from 'next/link';
 import React from 'react'
 import { FaFacebook, FaInstagram, FaLinkedin, FaLocationArrow, FaMobileAlt, FaSdCard } from 'react-icons/fa';
+import { FaSquareWhatsapp } from "react-icons/fa6";
 
 const BannerImg = {
     backgroundImage: 'url(https://res.cloudinary.com/djhjt07rh/image/upload/v1719817660/footer-pattern_l1st35.jpg)',
@@ -10,6 +12,12 @@ const BannerImg = {
     backgroundSize: "cover",
     height: "100%",
     width: "100%",
+};
+
+
+const handleButtonClick = () => {
+    window.open('mailto:shohidulpramanik94@gmail.com');
+    window.location.reload();
 };
 
 const Footer = () => {
@@ -44,6 +52,12 @@ const Footer = () => {
                                             <Link href={link.link} >{link.title}</Link>
                                         </li>
                                     ))}
+
+                                    <li
+                                        className="cursor-pointer hover:text-orange-500 hover:translate-x-1 duration-300 text-gray-200"
+                                    >
+                                        <button onClick={handleButtonClick}>Contact</button>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -76,6 +90,10 @@ const Footer = () => {
                                 <Link href="https://www.linkedin.com/in/shohedul-islam-5b8273318">
                                     <FaLinkedin className="text-3xl hover:text-red-300 hover:duration-300 transition-all" />
                                 </Link>
+                                <Link href="https://web.whatsapp.com" target='blank'>
+                                    <FaSquareWhatsapp className="text-3xl hover:text-red-300 hover:duration-300 transition-all" />
+                                </Link>
+
                             </div>
                             <div className="mt-6">
                                 <div className="flex items-center gap-3">
@@ -88,11 +106,7 @@ const Footer = () => {
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
-
-
                 </div>
             </div>
 

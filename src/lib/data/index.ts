@@ -68,18 +68,16 @@ export const FooterLinks = [
         link: "/",
     },
     {
-        title: "About",
-        link: "/about",
-    },
-    {
-        title: "Contact",
-        link: "/contact",
+        title: "Top product",
+        link: "/toprated",
     },
     {
         title: "Blog",
         link: "https://user-blog-xi.vercel.app",
     },
 ];
+
+
 
 export interface Product {
     id: number;

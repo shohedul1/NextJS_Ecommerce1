@@ -1,3 +1,5 @@
+
+
 'use client';
 import React, { useEffect, useState } from 'react';
 import AOS from "aos";
@@ -14,7 +16,7 @@ import { useRouter } from 'next/navigation';
 const CartPage = () => {
     const { productData } = useSelector((state: any) => state?.shopping);
     const dispatch = useDispatch();
-    const [loading, setLoding] = useState(false);
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -43,7 +45,7 @@ const CartPage = () => {
     const { data: session } = useSession();
 
     const handleCheckout = async () => {
-        setLoding(true);
+        setLoading(true);
         const stripe = await stripePromise;
         const response = await fetch("/api/checkout", {
             method: "POST",
@@ -59,16 +61,15 @@ const CartPage = () => {
             await dispatch(saveOrder({ order: productData, id: data.id }));
             stripe?.redirectToCheckout({ sessionId: data.id });
             dispatch(resetCart());
-            setLoding(false)
+            setLoading(false);
         } else {
-            setLoding(false)
+            setLoading(false);
             throw new Error("Failed to create Stripe Payment");
-
         }
     };
     // Stripe Payment end here
     return (
-        <div className=' py-10 bg-gray-200 dark:bg-black dark:text-white'>
+        <div className='py-10 bg-gray-200 dark:bg-black dark:text-white'>
             <div className='flex flex-col container'>
                 <div className="flex flex-col items-center gap-5 pb-2">
                     <h1
@@ -83,7 +84,7 @@ const CartPage = () => {
                     {
                         productData.map((product: any) => (
                             <div key={product.id} className="flex items-center flex-col md:flex-row gap-5">
-                                {/* product img and tittle quanty heading  */}
+                                {/* product img and title quantity heading  */}
                                 <div className="flex gap-8 sm:gap-20 flex-col md:flex-row items-center text-xs">
                                     <img
                                         src={product.img}
@@ -93,7 +94,7 @@ const CartPage = () => {
                                     <div className="flex flex-col gap-2">
                                         <h3 data-aos="fade-up" className="text-base">{product.title}</h3>
                                         <div className="text-base font-bold flex items-center gap-5 flex-col sm:flex-row">
-                                            <h1 data-aos="fade-up" >Quanty:</h1>
+                                            <h1 data-aos="fade-up">Quantity:</h1>
                                             <div data-aos="fade-up" className="flex items-center gap-2 text-xl font-semibold">
                                                 <IoIosAddCircleOutline
                                                     onClick={() => dispatch(decreaseQuantity(product))}
@@ -120,48 +121,52 @@ const CartPage = () => {
                                     />
                                 </div>
                             </div>
-
                         ))
                     }
 
                     {/* checkout button and home page link */}
                     <div className="flex flex-col gap-5">
                         <div className="flex items-center justify-end mt-2">
-                            <button onClick={() => dispatch(resetCart())}
-                                className="bg-red-500 rounded-md text-base font-semibold text-slate-100 py-2 px-6 hover:bg-red-700 hover:text-white duration-200">
-                                reset cart
-                            </button>
+                            {
+                                productData.length > 0 && (
+                                    <button onClick={() => dispatch(resetCart())}
+                                        className="bg-red-500 rounded-md text-base font-semibold text-slate-100 py-2 px-6 hover:bg-red-700 hover:text-white duration-200">
+                                        Reset Cart
+                                    </button>
+                                )
+                            }
                         </div>
                         <Link href="/" data-aos="fade-up" className="flex gap-1 hover:text-red-500">
                             <MdOutlineArrowCircleLeft size={24} />
                             Continue Shopping
                         </Link>
 
-                        {session && (
-                            <button onClick={handleCheckout} data-aos="fade-up" className="px-2 py-2 rounded-md hover:bg-lime-900 hover:text-white bg-lime-500 text-black font-bold text-xl" >
-                                {loading ? 'SUBMIT NOW..' : 'CHECK OUT NOW'}
-                            </button>
-
-                        )}
                         {
-                            !session && (
+                            productData.length > 0 && (
                                 <>
-                                    <button onClick={() => { router.push("/signup") }} data-aos="fade-up" className="px-2 py-2 rounded-md hover:bg-lime-900 hover:text-white bg-lime-500 text-black font-bold text-xl" >
-                                        CHECK OUT NOW
-                                    </button>
-
-                                    <p>Please login to continue</p>
+                                    {session ? (
+                                        <button onClick={handleCheckout} data-aos="fade-up" className="px-2 py-2 rounded-md hover:bg-lime-900 hover:text-white bg-lime-500 text-black font-bold text-xl">
+                                            {loading ? 'SUBMIT NOW..' : 'CHECK OUT NOW'}
+                                        </button>
+                                    ) : (
+                                        <>
+                                            <button onClick={() => { router.push("/signup") }} data-aos="fade-up" className="px-2 py-2 rounded-md hover:bg-lime-900 hover:text-white bg-lime-500 text-black font-bold text-xl">
+                                                CHECK OUT NOW
+                                            </button>
+                                            <p>Please login to continue</p>
+                                        </>
+                                    )}
                                 </>
                             )
                         }
                     </div>
                 </div>
             </div>
-
         </div>
-    )
+    );
 }
 
-export default CartPage
+export default CartPage;
+
 
 
