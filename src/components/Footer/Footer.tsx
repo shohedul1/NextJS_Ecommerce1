@@ -90,7 +90,7 @@ const Footer = () => {
                                 <Link href="https://www.linkedin.com/in/shohedul-islam-5b8273318">
                                     <FaLinkedin className="text-3xl hover:text-red-300 hover:duration-300 transition-all" />
                                 </Link>
-                                <Link href="https://web.whatsapp.com" target='blank'>
+                                <Link href="https://wa.me/911234567890" target="_blank">
                                     <FaSquareWhatsapp className="text-3xl hover:text-red-300 hover:duration-300 transition-all" />
                                 </Link>
 
